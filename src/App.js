@@ -1,6 +1,10 @@
+import React from 'react';
+import Form from './Form';
+import MessagesList from './MessagesList';
+
 const URL = 'http://localhost:3000';
 
-class App extends React.Component{
+export default class App extends React.Component{
     constructor(){
         super();
         this.state = {
