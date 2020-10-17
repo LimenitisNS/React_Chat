@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message Snaphot 1`] = `
+<li>
+  <b>
+    :
+  </b>
+  test
+</li>
+`;

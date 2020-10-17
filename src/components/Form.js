@@ -10,7 +10,7 @@ export default class Form extends React.Component{
     }
 
     handleSend(){
-        this.props.sendMessage({
+        this.props.postMessage({
             nick: this.state.nick,
             message: this.state.message,
         });

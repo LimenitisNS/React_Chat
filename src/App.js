@@ -14,7 +14,7 @@ export default class App extends React.Component{
         setInterval(this.getMessages.bind(this), 1000);
     }
 
-    sendMessage(newMessage){
+    postMessage(newMessage){
         if(nick.value === '' || message.value === '')
             alert('Есть пустые поля');
         else{
@@ -66,7 +66,7 @@ export default class App extends React.Component{
         return <>
             <h1 className="nameChat">Chat</h1>
             <h3 className="nameChat2">with the Devil</h3>
-            <Form sendMessage={(newMessage) => this.sendMessage(newMessage)}/>
+            <Form sendMessage={(newMessage) => this.postMessage(newMessage)}/>
             <MessagesList messages={serverMessages}/>
         </>
     }
