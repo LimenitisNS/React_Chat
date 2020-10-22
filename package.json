@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/App.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "start": "node server.js",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./configs/webpack.development.js",
     "build": "cross-env NODE_ENV=production webpack --config ./configs/webpack.production.js"
@@ -12,7 +12,9 @@
   "jest": {
     "setupFiles": [
       "./setupTests.js"
-    ]
+    ],
+    "collectCoverage": true,
+    "coverageReporters": ["html"]
   },
   "author": "",
   "license": "ISC",
