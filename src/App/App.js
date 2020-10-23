@@ -1,6 +1,7 @@
 import React from "react";
-import Form from "./components/Form";
-import MessagesList from "./components/MessagesList";
+import Form from "../components/Form/Form";
+import MessagesList from "../components/MessageList/MessagesList";
+import styles from "./styles.module.css"
 
 const URL = "http://localhost:3000";
 
@@ -61,8 +62,8 @@ export default class App extends React.Component {
 
     return (
       <>
-        <h1 className="nameChat">Chat</h1>
-        <h3 className="nameChat2">with the Devil</h3>
+        <h1 className={styles.nameChat}>Chat</h1>
+        <h3 className={styles.nameChat2}>with the Devil</h3>
         <Form postMessage={(newMessage) => this.postMessage(newMessage)} />
         <MessagesList messages={serverMessages} />
       </>

@@ -1,0 +1,11 @@
+.messages{
+    width: 400px;
+    height: 300px;
+    overflow: auto;
+    background: antiquewhite;
+    margin-left: 30px;
+}
+
+.messages ul{
+    width: 300px;
+}
