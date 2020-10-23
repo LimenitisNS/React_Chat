@@ -27,22 +27,24 @@ describe("MessagesList", () => {
     ];
     const component = renderer.create(<MessagesList messages={messages} />).toJSON();
     expect(component).toMatchInlineSnapshot(`
-      <div
-        id="messages"
-      >
+      <div>
         <ul>
-          <li>
-            <b>
-              :
-            </b>
-            Message from user1
-          </li>
-          <li>
-            <b>
-              :
-            </b>
-            Message from user2
-          </li>
+          <div>
+            <li>
+              <b>
+                :
+              </b>
+              Message from user1
+            </li>
+          </div>
+          <div>
+            <li>
+              <b>
+                :
+              </b>
+              Message from user2
+            </li>
+          </div>
         </ul>
       </div>
     `);

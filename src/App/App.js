@@ -1,7 +1,7 @@
 import React from "react";
 import Form from "../components/Form/Form";
 import MessagesList from "../components/MessageList/MessagesList";
-import styles from "./styles.module.css"
+import styles from "./styles.module.css";
 
 const URL = "http://localhost:3000";
 

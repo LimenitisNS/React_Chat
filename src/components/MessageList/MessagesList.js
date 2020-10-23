@@ -1,6 +1,6 @@
 import React from "react";
 import Message from "../Message/Message";
-import styles from "./styles.module.css"
+import styles from "./styles.module.css";
 
 export default class MessagesList extends React.Component {
   render() {
