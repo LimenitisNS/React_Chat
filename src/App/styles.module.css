@@ -1,11 +1,5 @@
-.nameChat{
-    color: red;
-    margin-left: 30px;
-    font-size: 70px;
-    margin-bottom: 0px;
-}
-
-.nameChat2{
-    margin-left: 40px;
-    margin-bottom: 8px;
+.nav_bar a{
+    margin-right: 20px;
+    text-decoration: none;
+    font-size: large;
 }

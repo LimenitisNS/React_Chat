@@ -1,72 +1,28 @@
-import React from "react";
-import Form from "../components/Form/Form";
-import MessagesList from "../components/MessageList/MessagesList";
+import React from 'react';
+import { Switch, Route, Redirect, Link } from 'react-router-dom';
+import LoginView from '../Views/LoginView';
+import RegistrationView from '../Views/RegistrationView';
+import ChatView from '../Views/ChatView';
 import styles from "./styles.module.css";
 
-const URL = "http://localhost:3000";
-
 export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      serverMessages: []
-    };
+    render() {
+        return (
+            <>
+                <div className={styles.nav_bar}>
+                    <Link to={'/login'}>Login</Link>
+                    <Link to={'/registration'}>Registration</Link>
+                    <Link to={'/chat'}>Chat</Link>
+                </div>
 
-    setInterval(this.getMessages.bind(this), 1000);
-  }
-
-  postMessage(newMessage) {
-    if (nick.value === "" || message.value === "") {
-      alert("Есть пустые поля");
-    } else {
-      let xhr = new XMLHttpRequest();
-      xhr.open("POST", URL);
-      xhr.send(JSON.stringify(newMessage));
-
-      xhr.onload = () => {
-        if (xhr.status !== 200) {
-          console.error("Ошибка!");
-        } else {
-          this.parseMessages(xhr.response);
-        }
-      };
-
-      xhr.onerror = function () {
-        console.log("Запрос не удался");
-      };
+                <Switch>
+                    <Route path="/login" component={LoginView} />
+                    <Route path="/registration" component={RegistrationView} />
+                    <Route path="/chat" component={ChatView} />
+                    <Redirect from="/" to="/login" />
+                </Switch>
+            </>
+        );
     }
-  }
-
-  getMessages() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", URL);
-    xhr.send();
-    xhr.onload = () => {
-      if (xhr.status !== 200) {
-        console.error("Ошибка!");
-      } else {
-        this.parseMessages(xhr.response);
-      }
-    };
-  }
-
-  parseMessages(response) {
-    const newServerMessages = JSON.parse(response);
-    this.setState({
-      serverMessages: newServerMessages
-    });
-  }
-
-  render() {
-    const { serverMessages } = this.state;
-
-    return (
-      <>
-        <h1 className={styles.nameChat}>Chat</h1>
-        <h3 className={styles.nameChat2}>with the Devil</h3>
-        <Form postMessage={(newMessage) => this.postMessage(newMessage)} />
-        <MessagesList messages={serverMessages} />
-      </>
-    );
-  }
 }
+
