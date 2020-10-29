@@ -10,6 +10,10 @@
     "Promise": true
   },
   "plugins": ["prettier", "sonarjs", "jest"],
+  "settings": {
+    "pragna": "React",
+    "version": "defect"
+  },
   "rules": {
     "prettier/prettier": ["error"],
     "quotes": [2, "double"],

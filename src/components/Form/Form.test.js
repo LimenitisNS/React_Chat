@@ -8,9 +8,9 @@ describe("Form", () => {
     const nick = "Nick";
     const handler = jest.fn();
     const component = shallow(<Form postMessage={handler} />);
-    component.find('input[type="text"]').simulate("change", { target: { value: nick } });
+    component.find("input[type='text']").simulate("change", { target: { value: nick } });
     component.find("textarea").simulate("change", { target: { value: message } });
-    component.find('input[type="button"]').simulate("click");
+    component.find("input[type='button']").simulate("click");
     expect(handler).toHaveBeenCalledWith({
       nick,
       message

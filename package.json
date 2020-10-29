@@ -25,6 +25,14 @@
       ".+\\.(css|styl|less|sass|scss)$": "jest-transform-css"
     }
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.(js|jsx)": ["eslint --fix"]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -58,8 +66,10 @@
     "eslint-plugin-standard": "^4.0.2",
     "history": "^5.0.0",
     "html-webpack-plugin": "^4.5.0",
+    "husky": "^4.3.0",
     "jest": "^26.5.2",
     "jest-transform-css": "^2.1.0",
+    "lint-staged": "^10.5.0",
     "prettier": "^2.1.2",
     "react-router-dom": "^5.2.0",
     "react-test-renderer": "^16.14.0",
