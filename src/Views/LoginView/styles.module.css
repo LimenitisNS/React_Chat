@@ -1,0 +1,11 @@
+.login label{
+    padding-right: 10px;
+}
+
+.login_input{
+    margin-left: 3px;
+}
+
+.login input{
+    margin-bottom: 10px;
+}

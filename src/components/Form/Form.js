@@ -11,9 +11,10 @@ export default class Form extends React.Component {
   }
 
   handleSend() {
+    const { nick, message } = this.state;
     const newMessage = {
-      nick: this.state.nick,
-      message: this.state.message
+      nick: nick,
+      message: message
     };
     this.props.postMessage(newMessage);
 

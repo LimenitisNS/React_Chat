@@ -3,7 +3,7 @@ import Form from "../../components/Form/Form";
 import MessagesList from "../../components/MessageList/MessagesList";
 import styles from "./styles.module.css";
 
-const URL = "http://localhost:3000";
+const URL = "http://localhost:3000/chat";
 
 export default class ChatView extends React.Component {
   constructor() {
@@ -24,14 +24,19 @@ export default class ChatView extends React.Component {
   }
 
   postMessage(newMessage) {
-    if (this.nick.value === "" || this.message.value === "") {
+    if (newMessage.nick === "" || newMessage.message === "") {
       alert("Есть пустые поля");
     } else {
       let xhr = new XMLHttpRequest();
       xhr.open("POST", URL);
-      xhr.send(JSON.stringify(newMessage));
+      xhr.send(
+        JSON.stringify({
+          nick: newMessage.nick,
+          message: newMessage.message
+        })
+      );
 
-      xhr.onload = () => this.onloadHandler(xhr);
+      xhr.onload = () => this.handleOnload(xhr);
 
       xhr.onerror = function () {
         console.log("Запрос не удался");
@@ -43,18 +48,18 @@ export default class ChatView extends React.Component {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", URL);
     xhr.send();
-    xhr.onload = () => this.onloadHandler(xhr);
+    xhr.onload = () => this.handleOnload(xhr);
   }
 
-  onloadHandler(xhr) {
+  handleOnload(xhr) {
     if (xhr.status !== 200) {
-      console.error("Ошибка!");
+      console.error("Error!");
     } else {
-      this.parseMessages(xhr.response);
+      this.drawMessages(xhr.response);
     }
   }
 
-  parseMessages(response) {
+  drawMessages(response) {
     const newServerMessages = JSON.parse(response);
     this.setState({
       serverMessages: newServerMessages

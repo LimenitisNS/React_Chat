@@ -1,0 +1,8 @@
+.profile_info{
+    background-color: white;
+    width: 300px;
+    height: 100px;
+    padding-left: 5px;
+    overflow: auto;
+    font-size: 20px;
+}
