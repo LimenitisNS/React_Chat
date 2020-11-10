@@ -24,14 +24,11 @@ export default class ChatView extends React.Component {
   }
 
   postMessage(newMessage) {
-    if (newMessage.nick === "" || newMessage.message === "") {
-      alert("Есть пустые поля");
-    } else {
       let xhr = new XMLHttpRequest();
       xhr.open("POST", URL);
       xhr.send(
         JSON.stringify({
-          nick: newMessage.nick,
+          nickname: newMessage.nickname,
           message: newMessage.message
         })
       );
@@ -41,7 +38,6 @@ export default class ChatView extends React.Component {
       xhr.onerror = function () {
         console.log("Запрос не удался");
       };
-    }
   }
 
   getMessages() {

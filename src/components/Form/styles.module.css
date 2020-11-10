@@ -14,3 +14,12 @@
 .form_nick_input{
     width: 170px;
 }
+
+.error{
+    color: white;
+    display: inline;
+}
+
+.error_message{
+    color: white;
+}

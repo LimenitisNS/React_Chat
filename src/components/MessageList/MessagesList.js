@@ -9,7 +9,7 @@ export default class MessagesList extends React.Component {
       <div className={styles.messages}>
         <ul>
           {messages.map((message, index) => (
-            <Message nick={message.nick} message={message.message} key={index} />
+            <Message nick={message.nickname} message={message.message} key={index} />
           ))}
         </ul>
       </div>
