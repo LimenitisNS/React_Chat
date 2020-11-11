@@ -24,20 +24,20 @@ export default class ChatView extends React.Component {
   }
 
   postMessage(newMessage) {
-      let xhr = new XMLHttpRequest();
-      xhr.open("POST", URL);
-      xhr.send(
-        JSON.stringify({
-          nickname: newMessage.nickname,
-          message: newMessage.message
-        })
-      );
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", URL);
+    xhr.send(
+      JSON.stringify({
+        nickname: newMessage.nickname,
+        message: newMessage.message
+      })
+    );
 
-      xhr.onload = () => this.handleOnload(xhr);
+    xhr.onload = () => this.handleOnload(xhr);
 
-      xhr.onerror = function () {
-        console.log("Запрос не удался");
-      };
+    xhr.onerror = function () {
+      console.log("Запрос не удался");
+    };
   }
 
   getMessages() {
