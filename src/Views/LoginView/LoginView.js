@@ -13,8 +13,16 @@ export default class LoginView extends React.Component {
   }
 
   handleSubmit(values) {
+    this.setState({
+      result: null,
+      error: null
+    });
+
     APIService.auth
-      .login(values)
+      .login({
+        nickname: values.nickname,
+        password: values.password
+      })
       .then(() => {
         this.setState({
           result: "The user has successfully logged in"

@@ -1,21 +1,21 @@
 import React from "react";
 import Form from "../../components/Form/Form";
 import MessagesList from "../../components/MessageList/MessagesList";
-import styles from "./styles.module.css";
-
-const URL = "http://localhost:3000/chat";
+import APIService from "../../APIService";
 
 export default class ChatView extends React.Component {
   constructor() {
     super();
     this.state = {
-      serverMessages: []
+      messages: [],
+      users: []
     };
 
     this.timer = null;
   }
 
   componentDidMount() {
+    this.setState({ users: [], messages: [] });
     this.timer = setInterval(this.getMessages.bind(this), 1000);
   }
 
@@ -23,55 +23,50 @@ export default class ChatView extends React.Component {
     clearInterval(this.timer);
   }
 
-  postMessage(newMessage) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", URL);
-    xhr.send(
-      JSON.stringify({
-        nickname: newMessage.nickname,
-        message: newMessage.message
-      })
-    );
-
-    xhr.onload = () => this.handleOnload(xhr);
-
-    xhr.onerror = function () {
-      console.log("Запрос не удался");
-    };
+  postMessage({ content }) {
+    APIService.message
+      .create({ content, chatId: this.props.match.params.id })
+      .then(() => this.getMessages());
   }
 
   getMessages() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", URL);
-    xhr.send();
-    xhr.onload = () => this.handleOnload(xhr);
+    APIService.message
+      .getMessages(this.props.match.params.id)
+      .then((response) => response.data)
+      .then((messages) => this.setState({ messages }))
+      .then(() => this.getUsers())
+      .then(() => {
+        const newMessages = this.state.message.map((message) => {
+          const user = this.state.users.find((user) => user.id === message.userid);
+          message.nickname = user.nickname;
+          return message;
+        });
+
+        this.setState({ message: newMessages });
+      });
   }
 
-  handleOnload(xhr) {
-    if (xhr.status !== 200) {
-      console.error("Error!");
-    } else {
-      this.drawMessages(xhr.response);
-    }
-  }
+  getUsers() {
+    const oldUsers = this.state.users;
+    const oldUsersIds = oldUsers.map((user) => user.id);
+    const newUsersIds = [...new Set(this.state.messages.map((message) => message.userid))];
+    const toLoad = newUsersIds.filter((id) => !oldUsersIds.includes(id));
 
-  drawMessages(response) {
-    const newServerMessages = JSON.parse(response);
-    this.setState({
-      serverMessages: newServerMessages
-    });
+    if (!toLoad.length) return;
+
+    return Promise.all(toLoad.map((id) => APIService.user.getById(id)))
+      .then((response) => response.map((response) => response.data))
+      .then((newUsers) => this.setState({ users: [...oldUsers, ...newUsers] }));
   }
 
   render() {
-    const { serverMessages } = this.state;
+    const { messages } = this.state;
 
     return (
       <>
-        <h1 className={styles.nameChat}>Chat with the Devil</h1>
-        <div className={styles.form}>
-          <Form postMessage={(newMessage) => this.postMessage(newMessage)} />
-          <MessagesList messages={serverMessages} />
-        </div>
+        <h1>Chat</h1>
+        <Form postMessage={(data) => this.postMessage(data)} />
+        <MessagesList messages={messages} />
       </>
     );
   }

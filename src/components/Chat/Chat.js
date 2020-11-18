@@ -1,27 +1,60 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-class Chat extends React.Component {
+export default class Chat extends React.Component {
+  isOwner() {
+    return this.props.userid === this.props.chat.userid;
+  }
+
+  isParticipant() {
+    return this.props.chat.participant.includes(this.props.userid);
+  }
+
   innerClickHandle(event) {
     event.preventDefault();
-    this.props.clickHandle(this.props.id);
+    this.props.goHandler(this.props.chat.id);
+  }
+
+  renderChat() {
+    if (this.isOwner()) {
+      return (
+        <>
+          <a href="#" onClick={(event) => this.innerClickHandle(event)}>
+            {this.props.chat.title}
+          </a>
+        </>
+      );
+    }
+    if (this.isParticipant()) {
+      return (
+        <>
+          <a href="#" onClick={(event) => this.innerClickHandle(event)}>
+            {this.props.chat.title}
+          </a>
+        </>
+      );
+    }
+    return (
+      <>
+        <span>{this.props.chat.title}</span>
+        <button onClick={() => this.props.joinHandler(this.props.chat.id)}>Enter</button>
+      </>
+    );
   }
 
   render() {
-    const { title } = this.props;
-    return (
-      <li>
-        <a href="#" onClick={(event) => this.innerClickHandle(event)}>
-          {title}
-        </a>
-      </li>
-    );
+    return <li>{this.renderChat()}</li>;
   }
 }
 
 Chat.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  userid: PropTypes.string,
+  chat: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    participant: PropTypes.arrayOf(PropTypes.string)
+  }),
+  goHandler: PropTypes.func,
+  joinHandler: PropTypes.func,
+  deleteHandler: PropTypes.func
 };
-
-export default Chat;

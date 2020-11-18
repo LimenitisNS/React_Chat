@@ -2,33 +2,35 @@ import React from "react";
 import PropTypes from "prop-types";
 import Chat from "../Chat/Chat";
 
-class ChatList extends React.Component {
+export default class ChatList extends React.Component {
   render() {
-    const { list, clickHandle } = this.props;
     return (
-      <>
-        {list.length ? (
-          <ul>
-            {list.map((chat) => (
-              <Chat id={chat.id} title={chat.title} clickHandle={clickHandle} key={chat.id} />
-            ))}
-          </ul>
-        ) : (
-          <p>No chats</p>
-        )}
-      </>
+      <ul>
+        {this.props.list.map((chat) => (
+          <Chat
+            userid={this.props.userid}
+            chat={chat}
+            goHandler={this.props.goHandler}
+            joinHandler={this.props.joinHandler}
+            deleteHandler={this.props.deleteHandler}
+            key={chat.id}
+          />
+        ))}
+      </ul>
     );
   }
 }
 
 ChatList.propTypes = {
+  userid: PropTypes.string,
   list: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired
+      id: PropTypes.string,
+      title: PropTypes.string,
+      participants: PropTypes.arrayOf(PropTypes.string)
     })
   ),
-  clickHandle: PropTypes.func.isRequired
+  goHandler: PropTypes.func,
+  joinHandler: PropTypes.func,
+  deleteHandler: PropTypes.func
 };
-
-export default ChatList;
