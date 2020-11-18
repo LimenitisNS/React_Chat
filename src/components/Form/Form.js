@@ -5,11 +5,9 @@ import { Formik } from "formik";
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
 
-  handleSubmit(event, values) {
-    event.preventDefault();
+  handleSubmit(values) {
     this.props.postMessage({
       content: values.content
     });
@@ -29,22 +27,23 @@ export default class Form extends React.Component {
 
             return errors;
           }}
-          onSubmit={(values, event) => {
-            this.handleSubmit(event, values);
+          onSubmit={(values) => {
+            this.handleSubmit(values);
+            values.content = "";
           }}
         >
           {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
             <form onSubmit={handleSubmit}>
-              <textarea
-                value={values.message}
-                name="message"
-                id="message"
+              <input
+                value={values.content}
+                name="content"
+                id="content"
                 placeholder="Enter your message"
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
               <div className={styles.error_message}>
-                {errors.message && touched.message && errors.message}
+                {errors.content && touched.content && errors.content}
               </div>
               <br />
               <button type="submit">Send</button>

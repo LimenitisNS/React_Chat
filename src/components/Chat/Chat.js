@@ -3,32 +3,28 @@ import PropTypes from "prop-types";
 
 export default class Chat extends React.Component {
   isOwner() {
-    return this.props.userid === this.props.chat.userid;
+    return this.props.userId === this.props.chat.userId;
   }
 
   isParticipant() {
-    return this.props.chat.participant.includes(this.props.userid);
-  }
-
-  innerClickHandle(event) {
-    event.preventDefault();
-    this.props.goHandler(this.props.chat.id);
+    return this.props.chat.participants.includes(this.props.userId);
   }
 
   renderChat() {
     if (this.isOwner()) {
       return (
         <>
-          <a href="#" onClick={(event) => this.innerClickHandle(event)}>
+          <a href="/" onClick={(event) => this.innerClickHandle(event)}>
             {this.props.chat.title}
           </a>
+          <button onClick={() => this.props.deleteHandler(this.props.chat.id)}>Delete</button>
         </>
       );
     }
     if (this.isParticipant()) {
       return (
         <>
-          <a href="#" onClick={(event) => this.innerClickHandle(event)}>
+          <a href="/" onClick={(event) => this.innerClickHandle(event)}>
             {this.props.chat.title}
           </a>
         </>
@@ -42,13 +38,18 @@ export default class Chat extends React.Component {
     );
   }
 
+  innerClickHandle(event) {
+    event.preventDefault();
+    this.props.goHandler(this.props.chat.id);
+  }
+
   render() {
     return <li>{this.renderChat()}</li>;
   }
 }
 
 Chat.propTypes = {
-  userid: PropTypes.string,
+  userId: PropTypes.string,
   chat: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,

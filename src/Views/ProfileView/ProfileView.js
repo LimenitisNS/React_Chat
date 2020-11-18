@@ -41,12 +41,12 @@ export default class ProfileView extends React.Component {
   }
 
   joinHandler(id) {
-    if (!confirm("Yes?")) return;
-    APIService.chat.join(id).then(() => this.getChatList());
+    if (!confirm("Do you want to join the chat ?")) return;
+    APIService.chat.join(id).then(() => this.getChatList())
   }
 
   deleteHandler(id) {
-    if (!confirm("Yes?")) return;
+    if (!confirm("Do you want to delete the chat ?")) return;
     APIService.chat.delete(id).then(() => this.getChatList());
   }
 
@@ -71,7 +71,7 @@ export default class ProfileView extends React.Component {
         </div>
         <h3>Chats</h3>
         <ChatList
-          userid={this.state.user?.id}
+          userId={this.state.user?.id}
           list={this.state.chats}
           goHandler={(id) => this.goHandler(id)}
           joinHandler={(id) => this.joinHandler(id)}
@@ -81,7 +81,7 @@ export default class ProfileView extends React.Component {
 
         <SearchChatForm handleSubmit={(data) => this.handleChatSearch(data)} />
         <ChatList
-          userid={this.state.user?.id}
+          userId={this.state.user?.id}
           list={this.state.foundChats}
           goHandler={(id) => this.goHandler(id)}
           joinHandler={(id) => this.joinHandler(id)}

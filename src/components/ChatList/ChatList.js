@@ -8,7 +8,7 @@ export default class ChatList extends React.Component {
       <ul>
         {this.props.list.map((chat) => (
           <Chat
-            userid={this.props.userid}
+            userId={this.props.userId}
             chat={chat}
             goHandler={this.props.goHandler}
             joinHandler={this.props.joinHandler}
@@ -22,7 +22,7 @@ export default class ChatList extends React.Component {
 }
 
 ChatList.propTypes = {
-  userid: PropTypes.string,
+  userId: PropTypes.string,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,

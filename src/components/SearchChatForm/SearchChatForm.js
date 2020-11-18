@@ -35,6 +35,6 @@ export default class SearchChatForm extends React.Component {
   }
 }
 
-SearchChatForm.prototype = {
-  handleSubmit: PropTypes.func.isRequired
+SearchChatForm.propTypes = {
+  handleSubmit: PropTypes.func
 };

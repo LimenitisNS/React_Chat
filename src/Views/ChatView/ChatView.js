@@ -36,20 +36,20 @@ export default class ChatView extends React.Component {
       .then((messages) => this.setState({ messages }))
       .then(() => this.getUsers())
       .then(() => {
-        const newMessages = this.state.message.map((message) => {
-          const user = this.state.users.find((user) => user.id === message.userid);
+        const newMessages = this.state.messages.map((message) => {
+          const user = this.state.users.find((user) => user.id === message.userId);
           message.nickname = user.nickname;
           return message;
         });
 
-        this.setState({ message: newMessages });
+        this.setState({ messages: newMessages });
       });
   }
 
   getUsers() {
     const oldUsers = this.state.users;
     const oldUsersIds = oldUsers.map((user) => user.id);
-    const newUsersIds = [...new Set(this.state.messages.map((message) => message.userid))];
+    const newUsersIds = [...new Set(this.state.messages.map((message) => message.userId))];
     const toLoad = newUsersIds.filter((id) => !oldUsersIds.includes(id));
 
     if (!toLoad.length) return;
