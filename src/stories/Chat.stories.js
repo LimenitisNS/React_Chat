@@ -12,9 +12,36 @@ export default {
 
 const Template = (args) => <Chat {...args} />;
 
-export const Common = Template.bind({});
-Common.args = {
-  id: "123",
-  title: "Chat №1",
-  clickHandle: action("Chat clicked")
+const chat = {
+  id: "1",
+  title: "Chat",
+  userId: "1",
+  participants: ["1", "2"]
+};
+
+export const Creator = Template.bind({});
+Creator.args = {
+  userId: "1",
+  chat,
+  goHandler: action("enter"),
+  joinHandler: action("join"),
+  deleteHandler: action("delete")
+};
+
+export const Participant = Template.bind({});
+Participant.args = {
+  userId: "2",
+  chat,
+  goHandler: action("enter"),
+  joinHandler: action("join"),
+  deleteHandler: action("delete")
+};
+
+export const Stranger = Template.bind({});
+Stranger.args = {
+  userId: "3",
+  chat,
+  goHandler: action("enter"),
+  joinHandler: action("join"),
+  deleteHandler: action("delete")
 };
