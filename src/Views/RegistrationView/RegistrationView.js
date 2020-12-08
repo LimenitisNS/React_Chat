@@ -1,5 +1,5 @@
 import React from "react";
-import APIService from "../../APIService";
+import APIService from "@/APIService";
 import styles from "./styles.module.css";
 import { Formik } from "formik";
 

@@ -34,7 +34,6 @@ describe("MessagesList", () => {
               <b>
                 :
               </b>
-              Message from user1
             </li>
           </div>
           <div>
@@ -42,7 +41,6 @@ describe("MessagesList", () => {
               <b>
                 :
               </b>
-              Message from user2
             </li>
           </div>
         </ul>

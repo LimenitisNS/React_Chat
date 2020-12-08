@@ -1,7 +1,7 @@
 import React from "react";
-import Form from "../../components/Form/Form";
-import MessagesList from "../../components/MessageList/MessagesList";
-import APIService from "../../APIService";
+import Form from "@/components/Form/Form";
+import MessagesList from "@/components/MessageList/MessagesList";
+import APIService from "@/APIService";
 
 export default class ChatView extends React.Component {
   constructor() {

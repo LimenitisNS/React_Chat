@@ -1,9 +1,9 @@
 import React from "react";
-import APIService from "../../APIService";
+import APIService from "@/APIService";
 import styles from "./styles.module.css";
-import ChatForm from "../../components/ChatForm";
-import ChatList from "../../components/ChatList";
-import SearchChatForm from "../../components/SearchChatForm";
+import ChatForm from "@/components/ChatForm";
+import ChatList from "@/components/ChatList";
+import SearchChatForm from "@/components/SearchChatForm";
 
 export default class ProfileView extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ export default class ProfileView extends React.Component {
 
   joinHandler(id) {
     if (!confirm("Do you want to join the chat ?")) return;
-    APIService.chat.join(id).then(() => this.getChatList())
+    APIService.chat.join(id).then(() => this.getChatList());
   }
 
   deleteHandler(id) {

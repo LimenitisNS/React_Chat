@@ -1,10 +1,10 @@
 import React from "react";
 import { Switch, Route, Redirect, Link } from "react-router-dom";
-import LoginView from "../Views/LoginView";
-import RegistrationView from "../Views/RegistrationView";
-import ChatView from "../Views/ChatView";
-import ProfileView from "../Views/ProfileView";
-import styles from "./styles.module.css";
+import LoginView from "@/Views/LoginView";
+import RegistrationView from "@/Views/RegistrationView";
+import ChatView from "@/Views/ChatView";
+import ProfileView from "@/Views/ProfileView";
+import styles from "@/App/styles.module.css";
 
 export default class App extends React.Component {
   render() {

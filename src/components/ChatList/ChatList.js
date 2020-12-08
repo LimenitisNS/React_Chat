@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Chat from "../Chat/Chat";
+import Chat from "@/components/Chat/Chat";
 
 export default class ChatList extends React.Component {
   render() {
