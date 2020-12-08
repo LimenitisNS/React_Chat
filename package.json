@@ -12,7 +12,10 @@
     "lint:fix": "eslint src/ --fix",
     "prettier": "prettier --write \"src/**/*.js\"",
     "storybook": "start-storybook -p 6006 --no-dll",
-    "build-storybook": "build-storybook --no-dll"
+    "build-storybook": "build-storybook --no-dll",
+    "loki:test": "npm run build-storybook && npx loki test --reactUri file:./storybook-static",
+    "loki:update": "npm run build-storybook && npx loki update --reactUri file:./storybook-static",
+    "loki:approve": "npx loki approve"
   },
   "jest": {
     "setupFiles": [
@@ -36,6 +39,21 @@
     "*.(js|jsx)": [
       "eslint --fix"
     ]
+  },
+  "loki": {
+    "configurations": {
+      "chrome.laptop": {
+        "target": "chrome.app",
+        "width": 1366,
+        "height": 768,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "chrome.iphone7": {
+        "target": "chrome.app",
+        "preset": "iPhone 7"
+      }
+    }
   },
   "author": "",
   "license": "ISC",
@@ -81,6 +99,7 @@
     "jest": "^26.5.2",
     "jest-transform-css": "^2.1.0",
     "lint-staged": "^10.5.0",
+    "loki": "^0.26.0",
     "prettier": "^2.1.2",
     "prop-types": "^15.7.2",
     "react-is": "^17.0.1",
