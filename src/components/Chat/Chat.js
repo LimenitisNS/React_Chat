@@ -33,7 +33,9 @@ export default class Chat extends React.Component {
     return (
       <>
         <span>{this.props.chat.title}</span>
-        <button className="enterButton" onClick={() => this.props.joinHandler(this.props.chat.id)}>Enter</button>
+        <button className="enterButton" onClick={() => this.props.joinHandler(this.props.chat.id)}>
+          Enter
+        </button>
       </>
     );
   }

@@ -9,20 +9,13 @@ export default class ProfileView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
       chats: [],
       foundChats: []
     };
   }
 
   componentDidMount() {
-    APIService.user
-      .getCurrent()
-      .then((response) => response.data)
-      .then((user) => this.setState({ user }))
-      .then(() => APIService.chat.getMyChats(this.state.user.id))
-      .then((response) => response.data)
-      .then((chats) => this.setState({ chats }));
+    this.getChatList();
   }
 
   handleCreateChat({ title }) {
@@ -31,7 +24,7 @@ export default class ProfileView extends React.Component {
 
   getChatList() {
     APIService.chat
-      .getMyChats(this.state.user.id)
+      .getMyChats(this.props.user.id)
       .then((response) => response.data)
       .then((chats) => this.setState({ chats }));
   }
@@ -58,20 +51,21 @@ export default class ProfileView extends React.Component {
   }
 
   render() {
+    const { user } = this.props;
     return (
       <>
         <h1>Profile user</h1>
         <div className={styles.profile_info}>
-          {this.state.user && (
+          {user && (
             <>
-              <div>Nickname: {this.state.user.nickname}</div>
-              <div>Create: {new Date(this.state.user.createdAt).toLocaleString()}</div>
+              <div>Nickname: {user.nickname}</div>
+              <div>Create: {new Date(user.createdAt).toLocaleString()}</div>
             </>
           )}
         </div>
         <h3>Chats</h3>
         <ChatList
-          userId={this.state.user?.id}
+          userId={user.id}
           list={this.state.chats}
           goHandler={(id) => this.goHandler(id)}
           joinHandler={(id) => this.joinHandler(id)}
@@ -81,7 +75,7 @@ export default class ProfileView extends React.Component {
 
         <SearchChatForm handleSubmit={(data) => this.handleChatSearch(data)} />
         <ChatList
-          userId={this.state.user?.id}
+          userId={user.id}
           list={this.state.foundChats}
           goHandler={(id) => this.goHandler(id)}
           joinHandler={(id) => this.joinHandler(id)}
