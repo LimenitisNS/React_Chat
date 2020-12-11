@@ -63,11 +63,11 @@ export default class ChatView extends React.Component {
     const { messages } = this.state;
 
     return (
-      <>
+      <div className="chatView">
         <h1>Chat</h1>
         <Form postMessage={(data) => this.postMessage(data)} />
         <MessagesList messages={messages} />
-      </>
+      </div>
     );
   }
 }

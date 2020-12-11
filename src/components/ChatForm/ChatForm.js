@@ -19,19 +19,20 @@ export default class ChatForm extends React.Component {
 
   render() {
     return (
-      <>
+      <div className="chatForm">
         <h3>Create chat</h3>
         <form onSubmit={(event) => this.handleSubmit(event)}>
           <div>
             <label>Title</label>
             <input
               value={this.state.title}
+              name="chat"
               onChange={(event) => this.setState({ title: event.target.value })}
             />
             <button type="submit">Create</button>
           </div>
         </form>
-      </>
+      </div>
     );
   }
 }

@@ -15,7 +15,7 @@ export default class Form extends React.Component {
 
   render() {
     return (
-      <div className={styles.form_style}>
+      <div className={styles.form_style} id="chatFormMessage">
         <Formik
           initialValues={{ content: "" }}
           validate={(values) => {

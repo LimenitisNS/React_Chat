@@ -27,10 +27,10 @@ export default class RegistrationView extends React.Component {
   render() {
     const { error, result } = this.state;
     return (
-      <>
+      <div className="registrationForm">
         <h1>Registration</h1>
         <div className={styles.error}>{error}</div>
-        {result}
+        <div className="result">{result}</div>
         <Formik
           initialValues={{ nickname: "", password: "" }}
           validate={(values) => {
@@ -56,7 +56,7 @@ export default class RegistrationView extends React.Component {
           }}
         >
           {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="formRegistration">
               <div className={styles.registration}>
                 <label>Nick</label>
                 <input
@@ -81,7 +81,7 @@ export default class RegistrationView extends React.Component {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                <div className={styles.error}>
+                <div className={styles.error} id="errorPassword">
                   {errors.password && touched.password && errors.password}
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default class RegistrationView extends React.Component {
             </form>
           )}
         </Formik>
-      </>
+      </div>
     );
   }
 }

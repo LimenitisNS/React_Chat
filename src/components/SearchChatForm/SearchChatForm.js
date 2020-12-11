@@ -18,19 +18,20 @@ export default class SearchChatForm extends React.Component {
   render() {
     const { title } = this.state;
     return (
-      <>
+      <div className="searchForm">
         <h4>Search chat</h4>
         <form onSubmit={(event) => this.handleSubmit(event)}>
           <div>
             <label>Title</label>
             <input
               value={title}
+              name="search"
               onChange={(event) => this.setState({ title: event.target.value })}
             />
           </div>
           <button type="submit">Search</button>
         </form>
-      </>
+      </div>
     );
   }
 }
