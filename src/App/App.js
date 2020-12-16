@@ -1,9 +1,9 @@
 import React from "react";
 import { Switch, Route, Redirect, Link } from "react-router-dom";
-import LoginView from "@/Views/LoginView";
-import RegistrationView from "@/Views/RegistrationView";
-import ChatView from "@/Views/ChatView";
-import ProfileView from "@/Views/ProfileView";
+import LoginView from "@/Views/LoginView/LoginView";
+import RegistrationView from "@/Views/RegistrationView/RegistrationView";
+import ChatView from "@/Views/ChatView/ChatView";
+import ProfileView from "@/Views/ProfileView/ProfileView";
 import styles from "@/App/styles.module.css";
 import APIService from "@/APIService";
 
