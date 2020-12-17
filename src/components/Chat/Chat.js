@@ -1,63 +1,48 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-export default class Chat extends React.Component {
-  isOwner() {
-    return this.props.userId === this.props.chat.userId;
+export default function Chat({ userId, chat, deleteHandler, joinHandler, goHandler }) {
+  function isOwner() {
+    return userId === chat.userId;
   }
 
-  isParticipant() {
-    return this.props.chat.participants.includes(this.props.userId);
+  function isParticipant() {
+    return chat.participants.includes(userId);
   }
 
-  renderChat() {
-    if (this.isOwner()) {
+  function renderChat() {
+    if (isOwner()) {
       return (
         <>
-          <a href="/" onClick={(event) => this.innerClickHandle(event)}>
-            {this.props.chat.title}
+          <a href="/" onClick={(event) => innerClickHandle(event)}>
+            {chat.title}
           </a>
-          <button onClick={() => this.props.deleteHandler(this.props.chat.id)}>Delete</button>
+          <button onClick={() => deleteHandler(chat.id)}>Delete</button>
         </>
       );
     }
-    if (this.isParticipant()) {
+    if (isParticipant()) {
       return (
         <>
-          <a href="/" onClick={(event) => this.innerClickHandle(event)}>
-            {this.props.chat.title}
+          <a href="/" onClick={(event) => innerClickHandle(event)}>
+            {chat.title}
           </a>
         </>
       );
     }
     return (
       <>
-        <span>{this.props.chat.title}</span>
-        <button className="enterButton" onClick={() => this.props.joinHandler(this.props.chat.id)}>
+        <span>{chat.title}</span>
+        <button className="enterButton" onClick={() => joinHandler(chat.id)}>
           Enter
         </button>
       </>
     );
   }
 
-  innerClickHandle(event) {
+  function innerClickHandle(event) {
     event.preventDefault();
-    this.props.goHandler(this.props.chat.id);
+    goHandler(chat.id);
   }
 
-  render() {
-    return <li>{this.renderChat()}</li>;
-  }
+  return <li>{renderChat()}</li>;
 }
-
-Chat.propTypes = {
-  userId: PropTypes.string,
-  chat: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string,
-    participant: PropTypes.arrayOf(PropTypes.string)
-  }),
-  goHandler: PropTypes.func,
-  joinHandler: PropTypes.func,
-  deleteHandler: PropTypes.func
-};
