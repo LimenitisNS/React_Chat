@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.module.css";
 
-export default function Message({ nickname, content }) {
+export default function Message({ content, nickname }) {
   return (
     <div className={styles.message}>
       <li>

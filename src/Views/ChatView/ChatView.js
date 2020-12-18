@@ -1,74 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Form from "@/components/Form/Form";
 import MessagesList from "@/components/MessageList/MessagesList";
 import APIService from "@/APIService";
 
-export default class ChatView extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      messages: [],
-      users: []
-    };
+export default function ChatView({ match }) {
+  const [users, setUsers] = useState([]);
+  const [messages, setMessages] = useState([]);
 
-    this.timer = null;
+  useEffect(() => {
+    setUsers([]);
+    setMessages([]);
+    getMessages();
+  }, []);
+
+  useEffect(() => {
+    const time = setInterval(getMessages.bind(this), 1000);
+    return () => clearInterval(time);
+  });
+
+  function postMessage({ content }) {
+    APIService.message.create({ content, chatId: match.params.id }).then(() => getMessages());
   }
 
-  componentDidMount() {
-    this.setState({ users: [], messages: [] });
-    this.getMessages();
-    this.timer = setInterval(this.getMessages.bind(this), 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
-
-  postMessage({ content }) {
+  function getMessages() {
     APIService.message
-      .create({ content, chatId: this.props.match.params.id })
-      .then(() => this.getMessages());
-  }
-
-  getMessages() {
-    APIService.message
-      .getMessages(this.props.match.params.id)
+      .getMessages(match.params.id)
       .then((response) => response.data)
-      .then((messages) => this.setState({ messages }))
-      .then(() => this.getUsers())
+      .then((messagesList) => setMessages(messagesList))
+      .then(() => getUsers())
       .then(() => {
-        const newMessages = this.state.messages.map((message) => {
-          const user = this.state.users.find((user) => user.id === message.userId);
+        const newMessages = messages.map((message) => {
+          const user = users.find((user) => user.id === message.userId);
           message.nickname = user.nickname;
           return message;
         });
 
-        this.setState({ messages: newMessages });
+        setMessages(newMessages);
       });
   }
 
-  getUsers() {
-    const oldUsers = this.state.users;
+  function getUsers() {
+    const oldUsers = users;
     const oldUsersIds = oldUsers.map((user) => user.id);
-    const newUsersIds = [...new Set(this.state.messages.map((message) => message.userId))];
+    const newUsersIds = [...new Set(messages.map((message) => message.userId))];
     const toLoad = newUsersIds.filter((id) => !oldUsersIds.includes(id));
 
     if (!toLoad.length) return;
 
     return Promise.all(toLoad.map((id) => APIService.user.getById(id)))
       .then((response) => response.map((response) => response.data))
-      .then((newUsers) => this.setState({ users: [...oldUsers, ...newUsers] }));
+      .then((newUsers) => setUsers([...oldUsers, ...newUsers]));
   }
 
-  render() {
-    const { messages } = this.state;
-
-    return (
-      <div className="chatView">
-        <h1>Chat</h1>
-        <Form postMessage={(data) => this.postMessage(data)} />
-        <MessagesList messages={messages} />
-      </div>
-    );
-  }
+  return (
+    <div className="chatView">
+      <h1>Chat</h1>
+      <Form postMessage={(data) => postMessage(data)} />
+      <MessagesList messages={messages} />
+    </div>
+  );
 }

@@ -1,87 +1,79 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import APIService from "@/APIService";
 import styles from "./styles.module.css";
 import ChatForm from "@/components/ChatForm";
 import ChatList from "@/components/ChatList";
 import SearchChatForm from "@/components/SearchChatForm";
 
-export default class ProfileView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      chats: [],
-      foundChats: []
-    };
+export default function ProfileView({ history, user }) {
+  const [chats, setChats] = useState([]);
+  const [foundChats, setFoundChats] = useState([]);
+
+  useEffect(() => {
+    getChatList();
+  }, []);
+
+  function handleCreateChat({ title, isPrivate }) {
+    APIService.chat.create({ title, isPrivate }).then(() => getChatList());
   }
 
-  componentDidMount() {
-    this.getChatList();
-  }
-
-  handleCreateChat({ title, isPrivate }) {
-    APIService.chat.create({ title, isPrivate }).then(() => this.getChatList());
-  }
-
-  getChatList() {
+  function getChatList() {
     APIService.chat
-      .getMyChats(this.props.user.id)
+      .getMyChats(user.id)
       .then((response) => response.data)
-      .then((chats) => this.setState({ chats }));
+      .then((chats) => setChats(chats));
   }
 
-  goHandler(id) {
-    this.props.history.push(`/chat/${id}`);
+  function goHandler(id) {
+    history.push(`/chat/${id}`);
   }
 
-  joinHandler(id) {
+  function joinHandler(id) {
     if (!confirm("Do you want to join the chat ?")) return;
-    APIService.chat.join(id).then(() => this.getChatList());
+    APIService.chat.join(id).then(() => getChatList());
   }
 
-  deleteHandler(id) {
+  function deleteHandler(id) {
     if (!confirm("Do you want to delete the chat ?")) return;
-    APIService.chat.delete(id).then(() => this.getChatList());
+    APIService.chat.delete(id).then(() => getChatList());
   }
 
-  handleChatSearch({ title }) {
+  function handleChatSearch({ title }) {
     APIService.chat
       .search(title)
       .then((response) => response.data)
-      .then((foundChats) => this.setState({ foundChats }));
+      .then((foundChats) => setFoundChats(foundChats));
   }
 
-  render() {
-    const { user } = this.props;
-    return (
-      <>
-        <h1>Profile user</h1>
-        <div className={styles.profile_info}>
-          {user && (
-            <>
-              <div>Nickname: {user.nickname}</div>
-              <div>Create: {new Date(user.createdAt).toLocaleString()}</div>
-            </>
-          )}
-        </div>
-        <h3>Chats</h3>
-        <ChatList
-          userId={user.id}
-          list={this.state.chats}
-          goHandler={(id) => this.goHandler(id)}
-          joinHandler={(id) => this.joinHandler(id)}
-          deleteHandler={(id) => this.deleteHandler(id)}
-        />
-        <ChatForm handleSubmit={(data) => this.handleCreateChat(data)} />
+  return (
+    <>
+      <h1>Profile user</h1>
+      <div className={styles.profile_info}>
+        {user && (
+          <>
+            <div>Nickname: {user.nickname}</div>
+            <div>Create: {new Date(user.createdAt).toLocaleString()}</div>
+          </>
+        )}
+      </div>
+      <h3>Chats</h3>
+      <ChatList
+        userId={user.id}
+        list={chats}
+        goHandler={(id) => goHandler(id)}
+        joinHandler={(id) => joinHandler(id)}
+        deleteHandler={(id) => deleteHandler(id)}
+      />
+      <ChatForm handleSubmit={(data) => handleCreateChat(data)} />
 
-        <SearchChatForm handleSubmit={(data) => this.handleChatSearch(data)} />
-        <ChatList
-          userId={user.id}
-          list={this.state.foundChats}
-          goHandler={(id) => this.goHandler(id)}
-          joinHandler={(id) => this.joinHandler(id)}
-          deleteHandler={(id) => this.deleteHandler(id)}
-        />
-      </>
-    );
-  }
+      <SearchChatForm handleSubmit={(data) => handleChatSearch(data)} />
+      <ChatList
+        userId={user.id}
+        list={foundChats}
+        goHandler={(id) => goHandler(id)}
+        joinHandler={(id) => joinHandler(id)}
+        deleteHandler={(id) => deleteHandler(id)}
+      />
+    </>
+  );
 }
