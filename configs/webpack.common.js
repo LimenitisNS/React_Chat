@@ -14,11 +14,6 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: paths.static, to: paths.build },
-            ],
-        }),
         new HtmlWebpackPlugin({
             template: paths.static + '/index.html', // template file
             filename: 'index.html', // output file

@@ -8,15 +8,10 @@ export default function ChatView({ match }) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    setUsers([]);
-    setMessages([]);
     getMessages();
-  }, []);
-
-  useEffect(() => {
-    const time = setInterval(getMessages.bind(this), 1000);
+    const time = setInterval(getMessages, 1000);
     return () => clearInterval(time);
-  });
+  }, []);
 
   function postMessage({ content }) {
     APIService.message.create({ content, chatId: match.params.id }).then(() => getMessages());
@@ -26,20 +21,19 @@ export default function ChatView({ match }) {
     APIService.message
       .getMessages(match.params.id)
       .then((response) => response.data)
-      .then((messagesList) => setMessages(messagesList))
-      .then(() => getUsers())
-      .then(() => {
+      .then(async (messages) => {
+        const users = await getUsers(messages);
         const newMessages = messages.map((message) => {
           const user = users.find((user) => user.id === message.userId);
           message.nickname = user.nickname;
           return message;
         });
-
+        setUsers(users);
         setMessages(newMessages);
       });
   }
 
-  function getUsers() {
+  function getUsers(messages) {
     const oldUsers = users;
     const oldUsersIds = oldUsers.map((user) => user.id);
     const newUsersIds = [...new Set(messages.map((message) => message.userId))];
@@ -49,7 +43,7 @@ export default function ChatView({ match }) {
 
     return Promise.all(toLoad.map((id) => APIService.user.getById(id)))
       .then((response) => response.map((response) => response.data))
-      .then((newUsers) => setUsers([...oldUsers, ...newUsers]));
+      .then((newUsers) => [...oldUsers, ...newUsers]);
   }
 
   return (
