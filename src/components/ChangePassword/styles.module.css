@@ -1,0 +1,14 @@
+.error{
+    color: red;
+    display: inline;
+    width: 300px;
+}
+
+.submitButton{
+    margin-top: 10px;
+}
+
+.submitButton button{
+    color: white;
+    font-size: 15px;
+}

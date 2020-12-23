@@ -14,7 +14,8 @@ export default {
   user: {
     create: ({ nickname, password }) => axiosInstance.post("/user", { nickname, password }),
     getCurrent: () => axiosInstance.get("/user"),
-    getById: (id) => axiosInstance.get(`/user/${id}`)
+    getById: (id) => axiosInstance.get(`/user/${id}`),
+    changePassword: (password) => axiosInstance.put("/user", { password })
   },
   chat: {
     create: ({ title }) => axiosInstance.post("/chat", { title }),

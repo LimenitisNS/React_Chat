@@ -4,8 +4,11 @@ import styles from "./styles.module.css";
 import ChatForm from "@/components/ChatForm";
 import ChatList from "@/components/ChatList";
 import SearchChatForm from "@/components/SearchChatForm";
+import Button from "@material-ui/core/Button";
+import ChangePassword from "@/components/ChangePassword";
 
 export default function ProfileView({ history, user }) {
+  const [open, setOpen] = React.useState(false);
   const [chats, setChats] = useState([]);
   const [foundChats, setFoundChats] = useState([]);
 
@@ -45,6 +48,14 @@ export default function ProfileView({ history, user }) {
       .then((foundChats) => setFoundChats(foundChats));
   }
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <h1>Profile user</h1>
@@ -56,6 +67,10 @@ export default function ProfileView({ history, user }) {
           </>
         )}
       </div>
+      <Button variant="contained" onClick={handleClickOpen}>
+        Change password
+      </Button>
+      <ChangePassword open={open} onClose={handleClose} />
       <h3>Chats</h3>
       <ChatList
         userId={user.id}
