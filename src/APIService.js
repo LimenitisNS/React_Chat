@@ -23,7 +23,8 @@ export default {
     search: (title) => axiosInstance.get(`/chat/?title=${title}`),
     getInfo: (id) => axiosInstance.get(`/chat/${id}`),
     delete: (id) => axiosInstance.delete(`/chat/${id}`),
-    join: (chatId) => axiosInstance.put(`/chat/${chatId}`)
+    join: (chatId) => axiosInstance.put(`/chat/${chatId}`),
+    changeTitle: ({ id, title }) => axiosInstance.put(`/chat/${id}`, { title })
   },
   message: {
     create: ({ content, chatId }) => axiosInstance.post("/message", { content, chatId }),

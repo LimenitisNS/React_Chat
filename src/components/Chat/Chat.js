@@ -1,6 +1,10 @@
 import React from "react";
+import { IconButton } from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
+import ChangeTitle from "@/components/ChangeTitle/ChangeTitle";
 
 export default function Chat({ userId, chat, deleteHandler, joinHandler, goHandler }) {
+  const [openChat, setOpenChat] = React.useState(false);
   function isOwner() {
     return userId === chat.userId;
   }
@@ -8,6 +12,14 @@ export default function Chat({ userId, chat, deleteHandler, joinHandler, goHandl
   function isParticipant() {
     return chat.participants.includes(userId);
   }
+
+  const handleClickOpen = () => {
+    setOpenChat(true);
+  };
+
+  const handleClose = () => {
+    setOpenChat(false);
+  };
 
   function renderChat() {
     if (isOwner()) {
@@ -17,6 +29,10 @@ export default function Chat({ userId, chat, deleteHandler, joinHandler, goHandl
             {chat.title}
           </a>
           <button onClick={() => deleteHandler(chat.id)}>Delete</button>
+          <IconButton onClick={handleClickOpen}>
+            <CreateIcon />
+          </IconButton>
+          <ChangeTitle onClose={handleClose} open={openChat} chat={chat} />
         </>
       );
     }

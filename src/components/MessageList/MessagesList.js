@@ -1,5 +1,5 @@
 import React from "react";
-import Message from "@/components/Message/Message";
+import Message from "@/components/Message";
 import styles from "./styles.module.css";
 
 export default function MessagesList({ messages }) {

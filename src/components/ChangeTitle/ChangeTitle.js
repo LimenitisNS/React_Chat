@@ -5,37 +5,29 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import APIService from "@/APIService";
 import { Formik } from "formik";
-import styles from "@//components/ChangePassword/styles.module.css";
+import styles from "@//components/ChangeTitle/styles.module.css";
 import Box from "@material-ui/core/Box";
 
-export default function ChangePassword({ open, onClose }) {
+export default function ChangeTitle({ open, onClose, chat }) {
   const handleClose = () => {
     onClose();
   };
 
   function handleSubmit(values) {
-    APIService.user.changePassword(values.password).then((response) => response.data);
-    onClose();
+    chat.title = values.title;
+    APIService.chat.changeTitle(chat).then(onClose());
   }
 
   return (
-    <Dialog
-      className={styles.dialog}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-      onClose={handleClose}
-    >
-      <DialogTitle id="simple-dialog-title">Change your password</DialogTitle>
+    <Dialog aria-labelledby="simple-dialog-title" open={open} onClose={handleClose}>
+      <DialogTitle id="simple-dialog-title">Change chat title</DialogTitle>
       <Formik
-        initialValues={{ password: "" }}
+        initialValues={{ title: "" }}
         validate={(values) => {
           const errors = {};
 
-          if (!values.password) {
-            errors.password = "Enter a password";
-          }
-          if (values.password.length < 7) {
-            errors.password = "The password must be longer than 6 characters";
+          if (!values.title) {
+            errors.title = "Enter a title";
           }
 
           return errors;
@@ -48,20 +40,18 @@ export default function ChangePassword({ open, onClose }) {
           <form onSubmit={handleSubmit}>
             <Box>
               <TextField
-                label="New password"
-                type="password"
-                name="password"
-                value={values.password}
+                label="New title"
+                type="text"
+                name="title"
+                value={values.title}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
             </Box>
-            <Box className={styles.error}>
-              {errors.password && touched.password && errors.password}
-            </Box>
+            <Box className={styles.error}>{errors.title && touched.title && errors.title}</Box>
             <Box className={styles.submitButton}>
               <Button variant="contained" type="submit">
-                Change password
+                Change title
               </Button>
             </Box>
           </form>
